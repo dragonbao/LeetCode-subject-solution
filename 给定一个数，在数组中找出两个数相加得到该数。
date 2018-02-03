@@ -1,0 +1,65 @@
+//原题如下：
+//Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+//You may assume that each input would have exactly one solution, and you may not use the same element twice.
+//Example:
+//Given nums = [2, 7, 11, 15], target = 9,
+//Because nums[0] + nums[1] = 2 + 7 = 9,
+//return [0, 1].
+
+//以下为解答部分，所用语言为javascript;
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>两数之和</title>
+</head>
+<body>
+<!-- 第一个input标签用于输入数组-->
+	<input type="text" placeholder="please input you Array here" ><br/><br/>
+  <!--第二个input标签用于输入要求和的数sum-->
+  <input type="text" name="" value="" placeholder="plese you number here"><br/><br/>
+  <!--span 标签用于返回结果，结果中的数据是数组的下标，为符合阅读习惯，在js中将下标处理为从1开始。-->
+  result:<span class="result"></span>
+  <!--javascript代码部分：-->
+<script type="text/javascript">
+	window.onload = function(){
+		var targ0= document.getElementsByTagName("input")[0];//获取第一个input标签.
+		var res = document.getElementsByClassName("result")[0];//获取span标签.
+    //给第一个input标签绑定事件onkeypress，
+		targ0.onkeypress = function(){
+			if(event.keyCode ==13){//注意判断键值使用的是event.keyCode而不是keyCode,13键值代表的是enter键.
+			var standvalue = targ0.value.replace(/(^\s*)|(\s*$)/g,"").split(" ");//通过正则表达式去除输入字符串的前后空格.
+      //split(" ")方法用于将字符串转化为数组，以space作为分割界限，此时数组内的元素均为string类型. 
+			return standvalue;
+				}
+		} 
+    //定义第二个input框的onkeypress事件：
+		var tag = document.getElementsByTagName("input")[1];
+			tag.onkeypress = function(){
+			if(window.event.keyCode == 13){//同样将enter键作为输入完毕信号.
+			var arr = targ0.onkeypress();// arr为用户输入的数组（去除前后空格后的数组）
+			console.log(arr);
+			var tagvalue = tag.value;// tagvalue为用户给出的两数之和的值。
+			var len = arr.length;//len数组的长度
+			var flag =false;//Boolean类型的flag值用于判断是否存在解.
+			for(var i=0;i<len;i++){//第一个循环，取数组中的一个值，去和所有后面的数组项相加，判断是否存在解.
+				// console.log(1);//判断函数是否执行循环.
+				for(let j=i+1;j<len;j++){//此处j=i+1；因为上面的循环每做完一次，后续数组值需要做的相加少一次.
+					if((+arr[i])+(+arr[j])==tagvalue){//小技巧：arr[i]为string类型，但是+arr[i]为number类型.
+						flag =true;//进入此if条件，代表存在合理解，所以将FLAG置为true.
+						console.log(i+1,j+1);
+						var a =i+1,b=j+1;//便于阅读习惯，将数组下标改为从1开始.
+						res.innerHTML = res.innerHTML+"["+a+","+b+"]";//将所得结果返回给span标签,存在多个解时一并返回.
+					}
+				}
+			}
+			if(flag ==false){//如果不存在合理解,返回无解信息.
+				console.log("no such value suitable");
+				res.innerHTML = "no such combation suitable";
+			}
+		}
+	}
+}
+</script>
+</body>
+</html>
